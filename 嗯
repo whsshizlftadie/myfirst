@@ -1,0 +1,60 @@
+gnode* creat(char* &tail,glist g)
+{
+	char* head=NULL;
+	extractstr(tail, head);
+	if (tail[0]=='/0')
+	{
+		if (head[0] == '(')
+		{
+			g->sublist = new gnode;
+			g->sublist->stage = 1;
+			g->sublist = creat(++head, g->sublist);
+		}
+		else if (head[0] = ' ')
+		{
+			g->sublist = NULL;
+		}
+		else
+		{
+			 g->sublist = new gnode;
+			 glist g1 = g->sublist;
+			 g1->stage = 0; g1->date = head[0];
+			 g1->sublist = NULL; g1->next = NULL;
+		}
+	}
+	else
+	{
+		if (head[0] == '(')
+		{
+			g->sublist->stage = 1;
+			g->sublist = creat(++head, g->sublist);
+		}
+		else if (head[0] = ' ')
+		{
+			g->sublist = NULL;
+		}
+		else
+		{
+			glist g2 = g->sublist;
+			g->sublist->stage = 0;
+			g->sublist->date = head[0];
+		}
+		if (g->sublist != NULL)
+		{
+			g->sublist->next =new gnode;
+			if (tail[0] != '(')
+			{
+				g->sublist->next->stage = 0;
+				g->sublist->next->date = tail[0];
+				g->sublist->next = creat(++(++tail), g->sublist);
+			}
+			else
+			{
+				g->sublist->next->stage = 1;
+				g->sublist->next = creat(++tail, g->sublist);
+
+			}
+		}
+	}
+	return g;
+}
