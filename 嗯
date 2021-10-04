@@ -58,3 +58,33 @@ gnode* creat(char* &tail,glist g)
 	}
 	return g;
 }
+void extractstr(char* &tailstr, char* &headstr)
+{
+	int i = 0; int k = 0; headstr = NULL;
+	do
+	{
+		if (tailstr[i] == '(')
+		{
+			k++;
+		}
+		if (tailstr[i] == ')')
+		{
+			k--;
+		}
+		i++;
+	} while (tailstr[i] != '\0' && (tailstr[i] != ',' || k != 0));
+	if (tailstr[i] != '\0')
+	{
+		headstr = new char[i];
+		for (int j = 0; j < i; j++)
+		{
+			headstr[j] = tailstr[j];
+		}
+		tailstr = &tailstr[i + 1];
+	}
+	else
+	{
+		strcpy_s(headstr, sizeof(tailstr), tailstr);
+		tailstr[0] = '\0';
+	}
+}
